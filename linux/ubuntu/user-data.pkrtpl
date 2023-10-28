@@ -1,0 +1,108 @@
+#cloud-config
+# Ubuntu Server 22.04 LTS
+
+autoinstall:
+  version: 1
+
+  early-commands:
+    - sudo systemctl stop ssh
+
+  locale: en_US
+  keyboard:
+    layout: fr
+
+  apt:
+    geoip: true
+    preserve_sources_list: false
+    primary:
+      - arches: [amd64, i386]
+        uri: http://fr.archive.ubuntu.com/ubuntu
+      - arches: [default]
+        uri: http://ports.ubuntu.com/ubuntu-ports
+  packages:
+    - openssh-server
+    - open-vm-tools
+    - cloud-init
+
+  #storage:
+  #    layout:
+  #        name: lvm
+  storage:
+    swap:
+      size: 1024M
+    config:
+      - id: disk-sda
+        type: disk
+        ptable: gpt
+        path: /dev/sda
+        wipe: superblock
+        preserve: false
+        name: main_disk
+        grub_device: true
+      - id: partition-0
+        type: partition
+        device: disk-sda
+        size: 1M
+        flag: bios_grub
+        number: 1
+        preserve: false
+      - device: disk-sda
+        size: 512M
+        wipe: superblock
+        flag: ''
+        number: 2
+        preserve: false
+        type: partition
+        id: partition-1
+      - fstype: ext4
+        volume: partition-1
+        preserve: false
+        type: format
+        id: format-0
+      - device: disk-sda
+        size: -1
+        wipe: superblock
+        flag: ''
+        number: 3
+        preserve: false
+        type: partition
+        id: partition-2
+      - name: vg0
+        devices: [partition-2]
+        preserve: false
+        type: lvm_volgroup
+        id: lvm_volgroup-0
+      - name: root
+        volgroup: lvm_volgroup-0
+        size: -1
+        preserve: false
+        type: lvm_partition
+        id: lvm_partition-0
+      - fstype: ext4
+        volume: lvm_partition-0
+        preserve: false
+        type: format
+        id: format-1
+      - device: format-1
+        path: /
+        type: mount
+        id: mount-1
+      - device: format-0
+        path: /boot
+        type: mount
+        id: mount-0
+    version: 1
+  identity:
+    hostname: ubuntu-server
+    username: ${ssh_username}
+    password: ${ssh_password}
+  ssh:
+    install-server: true
+    allow-pw: true
+  user-data:
+    disable_root: false
+    timezone: UTC
+  late-commands:
+    - sed -i -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config
+    - echo '${ssh_username} ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/${ssh_username}
+    - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/${ssh_username}

@@ -1,0 +1,10 @@
+Results of prettier linter (version 3.0.3)
+See documentation on https://megalinter.io/7.4.0/descriptors/yaml_prettier/
+-----------------------------------------------
+
+❌ [ERROR] for workspace /builds/packer/packer-unattended_distrib_files
+Linter raw log:
+Checking formatting...
+[warn] .mega-linter.yml
+[warn] Code style issues found in the above file. Run Prettier to fix.
+

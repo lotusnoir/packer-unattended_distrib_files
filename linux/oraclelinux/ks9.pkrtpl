@@ -1,0 +1,92 @@
+########################################################################
+## ORACLE LINUX KICKSTART FILE
+## philippe.leal
+
+# Use CDROM installation media
+cdrom
+
+# Accept EULA
+eula --agreed
+
+# Base repository, taken from cd-rom
+repo --name="AppStream" --baseurl=file:///run/install/sources/mount-0000-cdrom/AppStream
+
+# Perform the installation in command lines, not via GUI
+cmdline
+
+# Set language to use during installation and the default language to use on the installed system (required)
+lang fr_FR.UTF-8
+
+# Set system keyboard type / layout (required)
+keyboard --xlayouts='fr'
+
+# Run the Setup Agent on first boot
+firstboot --enable
+
+# Set the system time zone (required)
+timezone --utc  Europe/Paris
+
+#########################################################
+# Configure network information for target system and activate network devices in the installer environment (optional)
+# --onboot	enable device at a boot time
+# --device	device to be activated and / or configured with the network command
+# --bootproto	method to obtain networking configuration for device (default dhcp)
+# --noipv6	disable IPv6 on this device
+# To use static IP configuration,
+network --bootproto=static --ip=${template_net_ip} --netmask=255.255.255.240 --gateway=${template_net_gateway} --nameserver ${template_net_dns}
+
+#########################################################
+# Set the system's root password (required)
+#rootpw --iscrypted ${root_password} 
+rootpw ${root_password} 
+
+#Initial user (user with sudo capabilities) 
+#user --name=${ssh_username} --iscrypted --password=${ssh_password}
+user --name=${ssh_username} --password=${ssh_password}
+
+#########################################################
+# Configure firewall settings for the system (optional)
+# --enabled	reject incoming connections that are not in response to outbound requests
+# --ssh		allow sshd service through the firewall
+# firewall --enabled --ssh
+firewall --disabled
+
+#########################################################
+# Partition clearing information
+clearpart --all --initlabel
+
+# Disk partitioning information
+part /boot --fstype=ext4 --size=640 --asprimary
+part pv.NMo8Vr --grow --size=1
+volgroup vg0 --pesize=4096 pv.NMo8Vr
+logvol / --fstype=ext4 --name=root --vgname=vg0 --grow --size=8192 --maxsize=20480
+logvol swap --name=swap --vgname=vg0 --grow --size=1024 --maxsize=8192
+
+# Packages selection
+%packages --ignoremissing
+Require @Base
+@Base
+@core
+openssh-clients
+sudo
+lvm2
+open-vm-tools
+python
+perl
+
+#remove package
+#-iwl*-firmware
+%end 
+
+#########################################################
+#Post command to pass (sudo with nopasswd for local user)
+%post
+systemctl enable sshd
+echo "${ssh_username} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${ssh_username}
+chmod 440 /etc/sudoers.d/${ssh_username}
+sed -i -e 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+chage -M -1 ${ssh_username}
+%end 
+
+# Automatic reboot at the end
+reboot --eject

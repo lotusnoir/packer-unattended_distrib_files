@@ -1,0 +1,10 @@
+Results of yamllint linter (version 1.32.0)
+See documentation on https://megalinter.io/7.4.0/descriptors/yaml_yamllint/
+-----------------------------------------------
+
+❌ [ERROR] for workspace /builds/packer/packer-unattended_distrib_files
+Linter raw log:
+.mega-linter.yml
+  5:9       error    trailing spaces  (trailing-spaces)
+
+

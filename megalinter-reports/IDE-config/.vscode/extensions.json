@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "ms-vscode.PowerShell",
+        "esbenp.prettier-vscode"
+    ]
+}
