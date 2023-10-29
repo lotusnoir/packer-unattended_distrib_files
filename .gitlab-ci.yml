@@ -18,20 +18,6 @@ mega-linter:
   allow_failure: true
   variables:
     DEFAULT_WORKSPACE: ${CI_PROJECT_DIR}
-    REPORT_OUTPUT_FOLDER: ${CI_PROJECT_DIR}/megalinter-reports
-  artifacts:
-    when: always
-    paths:
-      - ${CI_PROJECT_DIR}/megalinter-reports
-    expire_in: 1 week
-
-###########################
-.secret-analyzer:
-  stage: tests
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-  variables:
-    SECRET_DETECTION_HISTORIC_SCAN: "true"
 
 ##################################################
 # PUSH CODE WHEN ALL TEST OK

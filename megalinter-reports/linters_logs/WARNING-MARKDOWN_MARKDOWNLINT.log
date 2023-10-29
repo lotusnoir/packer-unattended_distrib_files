@@ -1,8 +1,0 @@
-Results of markdownlint linter (version 0.37.0)
-See documentation on https://megalinter.io/7.4.0/descriptors/markdown_markdownlint/
------------------------------------------------
-
-❌ [ERROR] for workspace /builds/packer/packer-unattended_distrib_files
-Linter raw log:
-README.md:7:34 MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]
-
