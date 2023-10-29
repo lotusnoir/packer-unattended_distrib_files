@@ -1542,6 +1542,35 @@ See documentation on https://megalinter.io/7.4.0/descriptors/powershell_powershe
     
     RuleName                            Severity     ScriptName Line  Message
     --------                            --------     ---------- ----  -------
+    PSAvoidUsingWMICmdlet               Warning      Fixnetwork 13    File 'Fixnetw
+                                                     .ps1             ork.ps1' uses
+                                                                       WMI cmdlet.
+                                                                      For PowerShel
+                                                                      l 3.0 and abo
+                                                                      ve, use CIM c
+                                                                      mdlet which p
+                                                                      erform the sa
+                                                                      me tasks as t
+                                                                      he WMI cmdlet
+                                                                      s. The CIM cm
+                                                                      dlets comply
+                                                                      with WS-Manag
+                                                                      ement (WSMan)
+                                                                       standards an
+                                                                      d with the Co
+                                                                      mmon Informat
+                                                                      ion Model (CI
+                                                                      M) standard,
+                                                                      which enables
+                                                                       the cmdlets
+                                                                      to use the sa
+                                                                      me techniques
+                                                                       to manage Wi
+                                                                      ndows compute
+                                                                      rs and those
+                                                                      running other
+                                                                       operating sy
+                                                                      stems.
     PSAvoidUsingWriteHost               Warning      Fixnetwork 20    File 'Fixnetw
                                                      .ps1             ork.ps1' uses
                                                                        Write-Host.
@@ -1584,35 +1613,19 @@ See documentation on https://megalinter.io/7.4.0/descriptors/powershell_powershe
                                                                        Write-Verbos
                                                                       e, or Write-I
                                                                       nformation.
-    PSAvoidUsingWMICmdlet               Warning      Fixnetwork 13    File 'Fixnetw
-                                                     .ps1             ork.ps1' uses
-                                                                       WMI cmdlet.
-                                                                      For PowerShel
-                                                                      l 3.0 and abo
-                                                                      ve, use CIM c
-                                                                      mdlet which p
-                                                                      erform the sa
-                                                                      me tasks as t
-                                                                      he WMI cmdlet
-                                                                      s. The CIM cm
-                                                                      dlets comply
-                                                                      with WS-Manag
-                                                                      ement (WSMan)
-                                                                       standards an
-                                                                      d with the Co
-                                                                      mmon Informat
-                                                                      ion Model (CI
-                                                                      M) standard,
-                                                                      which enables
-                                                                       the cmdlets
-                                                                      to use the sa
-                                                                      me techniques
-                                                                       to manage Wi
-                                                                      ndows compute
-                                                                      rs and those
-                                                                      running other
-                                                                       operating sy
-                                                                      stems.
+    PSAvoidUsingCmdletAliases           Warning      Fixnetwork 19    'foreach' is
+                                                     .ps1             an alias of '
+                                                                      ForEach-Objec
+                                                                      t'. Alias can
+                                                                       introduce po
+                                                                      ssible proble
+                                                                      ms and make s
+                                                                      cripts hard t
+                                                                      o maintain. P
+                                                                      lease conside
+                                                                      r changing al
+                                                                      ias to its fu
+                                                                      ll content.
     PSAvoidUsingPositionalParameters    Information  Fixnetwork 20    Cmdlet 'Write
                                                      .ps1             -Host' has po
                                                                       sitional para
@@ -1633,19 +1646,6 @@ See documentation on https://megalinter.io/7.4.0/descriptors/powershell_powershe
                                                                       onal paramete
                                                                       rs when calli
                                                                       ng a command.
-    PSAvoidUsingCmdletAliases           Warning      Fixnetwork 19    'foreach' is
-                                                     .ps1             an alias of '
-                                                                      ForEach-Objec
-                                                                      t'. Alias can
-                                                                       introduce po
-                                                                      ssible proble
-                                                                      ms and make s
-                                                                      cripts hard t
-                                                                      o maintain. P
-                                                                      lease conside
-                                                                      r changing al
-                                                                      ias to its fu
-                                                                      ll content.
 
 ❌ [ERROR] windows/server2019/scripts_test/Install-Chocolately.ps1
     
