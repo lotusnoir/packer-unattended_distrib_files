@@ -15,7 +15,7 @@ repo --name="AppStream" --baseurl=file:///run/install/sources/mount-0000-cdrom/A
 cmdline
 
 # Set language to use during installation and the default language to use on the installed system (required)
-lang fr_FR.UTF-8
+lang en_US.UTF-8
 
 # Set system keyboard type / layout (required)
 keyboard --xlayouts='fr'
@@ -33,7 +33,7 @@ timezone --utc  Europe/Paris
 # --bootproto	method to obtain networking configuration for device (default dhcp)
 # --noipv6	disable IPv6 on this device
 # To use static IP configuration,
-network --bootproto=static --ip=${template_net_ip} --netmask=255.255.255.240 --gateway=${template_net_gateway} --nameserver ${template_net_dns}
+network --bootproto=static --ip=${template_net_ip} --netmask=${template_net_netmask} --gateway=${template_net_gateway} --nameserver ${template_net_dns}
 
 #########################################################
 # Set the system's root password (required)
@@ -59,30 +59,59 @@ clearpart --all --initlabel
 part /boot --fstype=ext4 --size=640 --asprimary
 part pv.NMo8Vr --grow --size=1
 volgroup vg0 --pesize=4096 pv.NMo8Vr
-logvol / --fstype=ext4 --name=root --vgname=vg0 --grow --size=8192 --maxsize=20480
-logvol swap --name=swap --vgname=vg0 --grow --size=1024 --maxsize=8192
+logvol swap --name=swap --vgname=vg0 --grow --size=1024
+logvol / --fstype=ext4 --name=root --vgname=vg0 --percent=100
 
 # Packages selection
 %packages --ignoremissing
-Require @Base
-@Base
-@core
-openssh-clients
+@guest-agents
+@legacy-unix
+@system-tools
 sudo
 lvm2
-open-vm-tools
 python
-perl
+bash
+tar
+bzip2
+##Cant remove package for a minimal installl if base / core selected
+-abrt*
+-aic94xx-firmware*
+-alsa-*
+-biosdevname
+-btrfs-progs*
+-dhclient
+-dhcp*
+-dracut-network
+-iprutils
+-ivtv*
+-iwl*firmware
+-libertas*
+-kexec-tools
+-plymouth*
+-postfix
+-microcode_ctl
+-btrfs-progs*
+-fprintd-pam
+-intltool
+-ppp
+-fprintd
+-hidd
+%end
 
-#remove package
-#-iwl*-firmware
-%end 
+
+## 399 packages - remove the list above to reduce even more
+#%packages --ignoremissing
+#@guest-agents
+#sudo
+#lvm2
+#python
+#%end
+
 
 #########################################################
 #Post command to pass (sudo with nopasswd for local user)
 %post
 systemctl enable sshd
-echo "${ssh_username} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${ssh_username}
 chmod 440 /etc/sudoers.d/${ssh_username}
 sed -i -e 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
 chage -M -1 ${ssh_username}

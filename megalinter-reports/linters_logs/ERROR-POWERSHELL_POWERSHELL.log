@@ -1613,19 +1613,6 @@ See documentation on https://megalinter.io/7.4.0/descriptors/powershell_powershe
                                                                       running other
                                                                        operating sy
                                                                       stems.
-    PSAvoidUsingCmdletAliases           Warning      Fixnetwork 19    'foreach' is
-                                                     .ps1             an alias of '
-                                                                      ForEach-Objec
-                                                                      t'. Alias can
-                                                                       introduce po
-                                                                      ssible proble
-                                                                      ms and make s
-                                                                      cripts hard t
-                                                                      o maintain. P
-                                                                      lease conside
-                                                                      r changing al
-                                                                      ias to its fu
-                                                                      ll content.
     PSAvoidUsingPositionalParameters    Information  Fixnetwork 20    Cmdlet 'Write
                                                      .ps1             -Host' has po
                                                                       sitional para
@@ -1646,6 +1633,19 @@ See documentation on https://megalinter.io/7.4.0/descriptors/powershell_powershe
                                                                       onal paramete
                                                                       rs when calli
                                                                       ng a command.
+    PSAvoidUsingCmdletAliases           Warning      Fixnetwork 19    'foreach' is
+                                                     .ps1             an alias of '
+                                                                      ForEach-Objec
+                                                                      t'. Alias can
+                                                                       introduce po
+                                                                      ssible proble
+                                                                      ms and make s
+                                                                      cripts hard t
+                                                                      o maintain. P
+                                                                      lease conside
+                                                                      r changing al
+                                                                      ias to its fu
+                                                                      ll content.
 
 ❌ [ERROR] windows/server2019/scripts_test/Install-Chocolately.ps1
     
