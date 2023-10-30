@@ -1,5 +1,4 @@
-Function Cleanup { 
-
+Function Cleanup {
     Clear-Host
 
     ## Stops the windows update service.
