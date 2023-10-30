@@ -14,12 +14,10 @@ if (Get-ChildItem "C:\Program Files\WindowsPowerShell\Modules\PSWindowsUpdate") 
 
 Write-Output "***** Starting Windows Update Installation"
 
-Try
-{
+Try {
     Import-Module PSWindowsUpdate -ErrorAction Stop
 }
-Catch
-{
+Catch {
     Write-Error "***** Unable to Import PSWindowsUpdate"
     exit 1
 }
@@ -29,7 +27,7 @@ if (Test-Path C:\Windows\Temp\PSWindowsUpdate.log) {
 }
 
 try {
-    $updateCommand = {Import-Module PSWindowsUpdate; Get-WUInstall -AcceptAll -Install -IgnoreReboot | Out-File C:\Windows\Temp\PSWindowsUpdate.log}
+    $updateCommand = { Import-Module PSWindowsUpdate; Get-WUInstall -AcceptAll -Install -IgnoreReboot | Out-File C:\Windows\Temp\PSWindowsUpdate.log }
     $TaskName = "PackerUpdate"
 
     $User = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -60,22 +58,24 @@ try {
     Write-Output "***** The Windows Update log will be displayed below this message. No additional output indicates no updates were needed."
     do {
         sleep 1
-        if ((Test-Path C:\Windows\Temp\PSWindowsUpdate.log) -and $script:reader -eq $null) {
+        if ((Test-Path C:\Windows\Temp\PSWindowsUpdate.log) -and $null -eq $script:reader) {
             $script:stream = New-Object System.IO.FileStream -ArgumentList "C:\Windows\Temp\PSWindowsUpdate.log", "Open", "Read", "ReadWrite"
             $script:reader = New-Object System.IO.StreamReader $stream
         }
-        if ($script:reader -ne $null) {
+        if ($null -ne $script:reader) {
             $line = $Null
-            do {$script:reader.ReadLine()
+            do {
+                $script:reader.ReadLine()
                 $line = $script:reader.ReadLine()
                 Write-Output $line
-            } while ($line -ne $null)
+            } while ($null -ne $line)
         }
-    } while ($Scheduler.GetRunningTasks(0) | Where-Object {$_.Name -eq $TaskName})
-} finally {
-    $RootFolder.DeleteTask($TaskName,0)
+    } while ($Scheduler.GetRunningTasks(0) | Where-Object { $_.Name -eq $TaskName })
+}
+finally {
+    $RootFolder.DeleteTask($TaskName, 0)
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Scheduler) | Out-Null
-    if ($script:reader -ne $null) {
+    if ($null -ne $script:reader) {
         $script:reader.Close()
         $script:stream.Dispose()
     }
