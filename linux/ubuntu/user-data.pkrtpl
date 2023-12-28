@@ -1,15 +1,14 @@
 #cloud-config
-# Ubuntu Server 22.04 LTS
-
 autoinstall:
   version: 1
 
   early-commands:
     - sudo systemctl stop ssh
 
-  locale: en_US
+  proxy: ${http_proxy}
+  locale: ${locales}
   keyboard:
-    layout: fr
+    layout: ${keyboard_layout}
 
   apt:
     geoip: true
@@ -24,12 +23,9 @@ autoinstall:
     - open-vm-tools
     - cloud-init
 
-  #storage:
-  #    layout:
-  #        name: lvm
   storage:
     swap:
-      size: 1024M
+      size: ${disk_swap_size}M
     config:
       - id: disk-sda
         type: disk
@@ -47,7 +43,7 @@ autoinstall:
         number: 1
         preserve: false
       - device: disk-sda
-        size: 512M
+        size: ${disk_boot_size}M
         wipe: superblock
         flag: ''
         number: 2
@@ -101,7 +97,7 @@ autoinstall:
     allow-pw: true
   user-data:
     disable_root: false
-    timezone: UTC
+    timezone: ${timezone}
   late-commands:
     - sed -i -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config
     - echo '${ssh_username} ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/${ssh_username}
