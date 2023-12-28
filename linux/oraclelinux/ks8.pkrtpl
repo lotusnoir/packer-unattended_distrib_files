@@ -8,11 +8,11 @@
 #!/bin/sh
 if [ "${internet_install}" = true ]; then
   if [ -z "${http_proxy}" ]; then
-    echo "repo --name=\"ol9_AppStream\" --baseurl=\"https://yum.oracle.com/repo/OracleLinux/OL9/appstream/x86_64/\"" > /tmp/repo-include
-    echo "url --url=\"https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest/x86_64\"" >> /tmp/repo-include
+    echo "repo --name=\"ol8_AppStream\" --baseurl=\"https://yum.oracle.com/repo/OracleLinux/OL8/appstream/x86_64/\"" > /tmp/repo-include
+    echo "url --url=\"https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64\"" >> /tmp/repo-include
   else
-    echo "repo --name=\"ol9_AppStream\" --baseurl=\"https://yum.oracle.com/repo/OracleLinux/OL9/appstream/x86_64/\" --proxy=${http_proxy}" > /tmp/repo-include
-    echo "url --url=\"https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest/x86_64\" --proxy=${http_proxy}" >> /tmp/repo-include
+    echo "repo --name=\"ol8_AppStream\" --baseurl=\"https://yum.oracle.com/repo/OracleLinux/OL8/appstream/x86_64/\" --proxy=${http_proxy}" > /tmp/repo-include
+    echo "url --url=\"https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64\" --proxy=${http_proxy}" >> /tmp/repo-include
   fi
 else
   echo "cdrom" > /tmp/repo-include
