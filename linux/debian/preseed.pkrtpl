@@ -80,7 +80,7 @@ d-i preseed/late_command string \
     sed -i "s/unassigned-preseed/$HOST_SERIAL/g" /target/etc/hostname ; \
     sed -i "s/unassigned-preseed/$HOST_SERIAL/g" /target/etc/hosts ; \
     sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/" /target/etc/ssh/sshd_config ; \
-    sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /target/etc/ssh/sshd_config ;
+    sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config ;
 
 # Don't show "Installation has been completed" message
 d-i finish-install/reboot_in_progress note
