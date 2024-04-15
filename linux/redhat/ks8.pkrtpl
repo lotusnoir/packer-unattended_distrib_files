@@ -76,14 +76,6 @@ volgroup vg0 --pesize=4096 pv.NMo8Vr
 logvol swap --name=swap --vgname=vg0 --grow --size=${disk_swap_size}
 logvol / --fstype=ext4 --name=root --vgname=vg0 --percent=100
 
-#bootloader --location=mbr
-#text
-#skipx
-#zerombr
-#clearpart --all
-#autopart
-#firstboot --disabled
-
 #########################################################
 # Packages selection
 %packages --ignoremissing
@@ -121,26 +113,6 @@ bzip2
 #-fprintd
 #-hidd
 %end
-
-## 399 packages - remove the list above to reduce even more
-#%packages --ignoremissing
-#@guest-agents
-#sudo
-#lvm2
-#python
-#%end
-
-#%packages
-#@base
-#@core
-#sudo                                                                                                                                                                                                               
-#lvm2
-#python
-#bash
-#tar
-#bzip2
-#%end
-
 
 #########################################################
 #Post command to pass (sudo with nopasswd for local user)

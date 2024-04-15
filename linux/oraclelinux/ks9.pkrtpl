@@ -82,7 +82,7 @@ logvol / --fstype=ext4 --name=root --vgname=vg0 --percent=100
 @system-tools
 sudo
 lvm2
-python
+python3
 bash
 tar
 bzip2
@@ -116,7 +116,7 @@ bzip2
 #@guest-agents
 #sudo
 #lvm2
-#python
+#python3
 #%end
 
 
