@@ -87,7 +87,7 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Description>Network setup</Description>
-                    <Path>netsh interface ipv4 set address name="Ethernet0" static ${template_net_ip} 255.255.255.240 ${template_net_gateway}</Path>
+                    <Path>netsh interface ipv4 set address name="Ethernet0" static ${net_ip} 255.255.255.240 ${net_gateway}</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
 	                <Order>2</Order>
@@ -114,11 +114,11 @@
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <AutoLogon>
                 <Password>
-                    <Value>${win_admin_password}</Value>
+                    <Value>${winrm_password}</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <LogonCount>1</LogonCount>
-                <Username>${win_admin_username}</Username>
+                <Username>${winrm_username}</Username>
                 <Enabled>true</Enabled>
             </AutoLogon>
 	    <FirstLogonCommands>
@@ -126,17 +126,17 @@
                 <SynchronousCommand wcm:action="add">
                     <Description>Set ip static</Description>
                     <Order>1</Order>
-                    <CommandLine>netsh interface ipv4 set address name="Ethernet0" static ${template_net_ip} 255.255.255.240 ${template_net_gateway}</CommandLine>
+                    <CommandLine>netsh interface ipv4 set address name="Ethernet0" static ${net_ip} 255.255.255.240 ${net_gateway}</CommandLine>
                 </SynchronousCommand> 
                 <SynchronousCommand wcm:action="add">
                     <Description>Set primary dns</Description>
                     <Order>2</Order>
-                    <CommandLine>netsh interface ipv4 add dnsserver name="Ethernet0" address=${template_net_dns} index=1</CommandLine>
+                    <CommandLine>netsh interface ipv4 add dnsserver name="Ethernet0" address=${net_dns} index=1</CommandLine>
                 </SynchronousCommand> 
                 <SynchronousCommand wcm:action="add">
                     <Description>Set secondary dns</Description>
                     <Order>3</Order>
-                    <CommandLine>netsh interface ipv4 add dnsserver name="Ethernet0" address=${template_net_dns2} index=2</CommandLine>
+                    <CommandLine>netsh interface ipv4 add dnsserver name="Ethernet0" address=${net_dns} index=2</CommandLine>
                 </SynchronousCommand> 
 
 	            <!-- ENABLE WINRM + OPEN PORT ON FIREWALL --> 
@@ -160,7 +160,7 @@
 
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>${win_admin_password}</Value>
+                    <Value>${winrm_password}</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
             </UserAccounts>
