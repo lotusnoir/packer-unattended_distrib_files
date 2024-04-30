@@ -145,15 +145,7 @@
                     <Order>4</Order>
                     <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\Enable-Winrm.ps1</CommandLine>
                 </SynchronousCommand> 
-
-                <!-- ENABLE OPENSSH --> 
-                  <SynchronousCommand wcm:action="add">
-                      <Description>Enable OpenSSH</Description>
-                      <Order>5</Order>
-                      <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\Enable-OpenSSH.ps1</CommandLine>
-                  </SynchronousCommand>
             </FirstLogonCommands>
-
 
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
