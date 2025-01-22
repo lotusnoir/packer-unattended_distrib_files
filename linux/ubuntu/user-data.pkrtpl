@@ -3,7 +3,7 @@ autoinstall:
   version: 1
 
   early-commands:
-    - sudo systemctl stop ssh
+    - systemctl stop ssh
 
   proxy: ${http_proxy}
   locale: ${locales}

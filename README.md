@@ -15,7 +15,7 @@ For each distrib we will show an exemple of packer configuration in order to dep
 
 ### Use a netboot deploy with http preseed file
 iso_checksum = "712cf43c5c9d60dbd5190144373c18b910c89051193c47534a68b0cd137c99bd8274902f59b25aba3b6ba3e5bca51d7c433c06522f40adb93aacc5e21acf57eb"
-iso_url      = "https://miroir.univ-lorraine.fr/debian-cd/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso"
+iso_url      = "<https://miroir.univ-lorraine.fr/debian-cd/current/amd64/iso-cd/debian-12.6.0-amd64-netinst.iso>"
 http_content_filename      = "preseed.cfg"
 http_content_filename_path = "../../modules/packer-unattended_distrib_files/linux/debian/preseed.pkrtpl"
 boot_command = [
@@ -35,7 +35,7 @@ boot_command = [
 
 ### Use de dvd with no mirror deploy and cdrom
 iso_checksum = "c79e2532fd3cf40b171a7a89a7de8cff37cb333c85870104b72f8e3e2d150f3321a683a556f5fd4ee204dcba288655af7793faa25a6166bf1e31cced4db1611c"
-iso_url      = "https://miroir.univ-lorraine.fr/debian-cd/current/amd64/iso-dvd/debian-12.7.0-amd64-DVD-1.iso"
+iso_url      = "<https://miroir.univ-lorraine.fr/debian-cd/current/amd64/iso-dvd/debian-12.7.0-amd64-DVD-1.iso>"
 remove_cdrom = true
 cd_label = "cidata"
 cd_content_filename = "preseed.cfg"
