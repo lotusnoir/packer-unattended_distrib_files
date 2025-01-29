@@ -89,7 +89,7 @@ autoinstall:
         id: mount-0
     version: 1
   identity:
-    hostname: ubuntu-server
+    hostname: ${vm_name}
     username: ${ssh_username}
     password: ${ssh_password}
   ssh:
