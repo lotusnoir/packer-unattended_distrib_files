@@ -67,48 +67,67 @@ firewall --disabled
 
 #########################################################
 # Partition information
-clearpart --all --initlabel
-part /boot --fstype=ext4 --size=${disk_boot_size} --asprimary
-part pv.NMo8Vr --grow --size=1
-volgroup vg0 --pesize=4096 pv.NMo8Vr
-logvol swap --name=swap --vgname=vg0 --grow --size=${disk_swap_size}
-logvol / --fstype=ext4 --name=root --vgname=vg0 --percent=100
+zerombr
+ignoredisk --only-use=sda
+clearpart --all --initlabel --disklabel=gpt
 
+part biosboot --fstype=biosboot --size=1 --ondisk=sda
+part /boot    --fstype=ext4     --size=${disk_boot_size} --ondisk=sda --asprimary
+part pv.01    --fstype=lvmpv    --size=1    --grow      --ondisk=sda
+
+volgroup vg0 pv.01
+logvol swap --vgname=vg0 --size=${disk_swap_size} --name=swap
+logvol / --fstype=ext4 --vgname=vg0 --percent=100 --name=root --grow
+
+bootloader --location=mbr --boot-drive=sda
 #########################################################
 # Packages selection
-%packages --ignoremissing
-@guest-agents
+%packages --ignoremissing --excludedocs
 @legacy-unix
 @system-tools
+open-vm-tools
 sudo
 lvm2
 python3
 bash
 tar
 bzip2
+
 ##Cant remove package for a minimal installl if base / core selected
 -abrt*
--aic94xx-firmware*
--alsa-*
 -biosdevname
 -btrfs-progs*
 -dhclient
 -dhcp*
--dracut-network
 -iprutils
 -ivtv*
--iwl*firmware
--libertas*
--kexec-tools
 -plymouth*
 -postfix
--microcode_ctl
 -btrfs-progs*
--fprintd-pam
--intltool
 -ppp
 -fprintd
 -hidd
+# unnecessary firmware
+-aic94xx-firmware
+-atmel-firmware
+-b43-openfwwf
+-bfa-firmware
+-ipw2100-firmware
+-ipw2200-firmware
+-ivtv-firmware
+-iwl*-firmware
+-libertas*
+-ql*-firmware
+-rt61pci-firmware
+-rt73usb-firmware
+-xorg-x11-drv-ati-firmware
+-zd1211-firmware
+-cockpit
+-quota
+-alsa-*
+-fprintd-pam
+-intltool
+-microcode_ctl
 %end
 
 ## 399 packages - remove the list above to reduce even more
@@ -119,6 +138,8 @@ bzip2
 #python3
 #%end
 
+%addon com_redhat_kdump --disable
+%end
 
 #########################################################
 #Post command to pass (sudo with nopasswd for local user)
@@ -127,6 +148,7 @@ systemctl enable sshd
 echo "${ssh_username} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${ssh_username}
 chmod 440 /etc/sudoers.d/${ssh_username}
 chage -M -1 ${ssh_username}
+systemctl enable vmtoolsd
 %end
 
 # Automatic reboot at the end
