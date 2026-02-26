@@ -150,6 +150,7 @@ echo "${ssh_username} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${ssh_username}
 chmod 440 /etc/sudoers.d/${ssh_username}
 chage -M -1 ${ssh_username}
 systemctl enable --now vmtoolsd
+mkdir -p /etc/sysconfig/network-scripts
 %end
 
 # Automatic reboot at the end
