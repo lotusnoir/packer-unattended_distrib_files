@@ -92,6 +92,7 @@ python3
 bash
 tar
 bzip2
+perl
 
 ##Cant remove package for a minimal installl if base / core selected
 -abrt*
@@ -148,7 +149,7 @@ systemctl enable sshd
 echo "${ssh_username} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${ssh_username}
 chmod 440 /etc/sudoers.d/${ssh_username}
 chage -M -1 ${ssh_username}
-systemctl enable vmtoolsd
+systemctl enable --now vmtoolsd
 %end
 
 # Automatic reboot at the end
