@@ -68,18 +68,18 @@ firewall --disabled
 #########################################################
 # Partition information
 zerombr
-ignoredisk --only-use=sda
+ignoredisk --only-use=${disk_name}
 clearpart --all --initlabel --disklabel=gpt
 
-part biosboot --fstype=biosboot --size=1 --ondisk=sda
-part /boot    --fstype=ext4     --size=${disk_boot_size} --ondisk=sda --asprimary
-part pv.01    --fstype=lvmpv    --size=1    --grow      --ondisk=sda
+part biosboot --fstype=biosboot --size=1 --ondisk=${disk_name}
+part /boot    --fstype=ext4     --size=${disk_boot_size} --ondisk=${disk_name} --asprimary
+part pv.01    --fstype=lvmpv    --size=1    --grow      --ondisk=${disk_name}
 
 volgroup vg0 pv.01
 logvol swap --vgname=vg0 --size=${disk_swap_size} --name=swap
 logvol / --fstype=ext4 --vgname=vg0 --percent=100 --name=root --grow
 
-bootloader --location=mbr --boot-drive=sda
+bootloader --location=mbr --boot-drive=${disk_name}
 #########################################################
 # Packages selection
 %packages --ignoremissing --excludedocs
