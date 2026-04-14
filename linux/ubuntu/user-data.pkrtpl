@@ -27,22 +27,22 @@ autoinstall:
     swap:
       size: ${disk_swap_size}M
     config:
-      - id: disk-sda
+      - id: disk-${disk_name}
         type: disk
         ptable: gpt
-        path: /dev/sda
+        path: /dev/${disk_name}
         wipe: superblock
         preserve: false
         name: main_disk
         grub_device: true
       - id: partition-0
         type: partition
-        device: disk-sda
+        device: disk-${disk_name}
         size: 1M
         flag: bios_grub
         number: 1
         preserve: false
-      - device: disk-sda
+      - device: disk-${disk_name}
         size: ${disk_boot_size}M
         wipe: superblock
         flag: ''
@@ -55,7 +55,7 @@ autoinstall:
         preserve: false
         type: format
         id: format-0
-      - device: disk-sda
+      - device: disk-${disk_name}
         size: -1
         wipe: superblock
         flag: ''
