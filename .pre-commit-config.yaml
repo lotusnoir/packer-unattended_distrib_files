@@ -6,14 +6,23 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
+        files: .*\.(yaml|yml)$
       - id: end-of-file-fixer
+        files: .*\.(yaml|yml)$
       - id: trailing-whitespace
+        files: .*\.(yaml|yml)$
       - id: mixed-line-ending
+        files: .*\.(yaml|yml)$
       - id: fix-byte-order-marker
+        files: .*\.(yaml|yml)$
       - id: check-merge-conflict
+        files: .*\.(yaml|yml)$
       - id: check-executables-have-shebangs
+        files: .*\.(yaml|yml)$
       - id: check-symlinks
+        files: .*\.(yaml|yml)$
       - id: detect-private-key
+        files: .*\.(yaml|yml)$
       - id: check-yaml
         files: .*\.(yaml|yml)$
 
@@ -39,11 +48,6 @@ repos:
     hooks:
       - id: packer_fmt
       - id: packer_validate
-
-  - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.3.1
-    hooks:
-      - id: remove-crlf
 
   # Secu: Detect secrets
   - repo: local
