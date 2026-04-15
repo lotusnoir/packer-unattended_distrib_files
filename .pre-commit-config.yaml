@@ -49,15 +49,15 @@ repos:
       - id: packer_fmt
       - id: packer_validate
 
-  # Secu: Detect secrets
-  - repo: local
-    hooks:
-      - id: trufflehog
-        name: TruffleHog
-        description: Detect secrets in your data.
-        entry: bash -c 'trufflehog --no-update git file://. --since-commit HEAD --only-verified --fail'
-        language: system
-        stages: ["pre-commit", "pre-push"]
+  ## Secu: Detect secrets
+  #- repo: local
+  #  hooks:
+  #    - id: trufflehog
+  #      name: TruffleHog
+  #      description: Detect secrets in your data.
+  #      entry: bash -c 'trufflehog --no-update git file://. --since-commit HEAD --only-verified --fail'
+  #      language: system
+  #      stages: ["pre-commit", "pre-push"]
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.0
