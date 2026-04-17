@@ -12,6 +12,21 @@
             <UserLocale>fr-FR</UserLocale>
         </component>
 
+<component name="Microsoft-Windows-PnpCustomizationsWinPE"
+           processorArchitecture="amd64"
+           publicKeyToken="31bf3856ad364e35"
+           language="neutral"
+           versionScope="nonSxS"
+           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <DriverPaths>
+        <PathAndCredentials wcm:action="add">
+            <Path>D:\2k19</Path>
+        </PathAndCredentials>
+    </DriverPaths>
+
+</component>
 
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <DiskConfiguration>
@@ -94,11 +109,11 @@
                     <Path>netsh interface ipv4 set address name="Ethernet0" static ${net_ip} 255.255.255.240 ${net_gateway}</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-	                <Order>2</Order>
-                    <Description>Install Proxmox tools</Description>
-                    <Path>D:\virtio-win-guest-tools.exe"</Path>
+                    <Order>2</Order>
+                    <Description>Install VirtIO drivers</Description>
+		    <Path>cmd /c for %i in (D E F) do if exist %i:\virtio-win-guest-tools.exe %i:\virtio-win-guest-tools.exe /install /quiet /norestart ACCEPTEULA=1</Path>
                 </RunSynchronousCommand>
-            </RunSynchronous>
+	    </RunSynchronous>
         </component>
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-ServerManager-SvrMgrNc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
         <!-- https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-servermanager-svrmgrnc -->
@@ -147,7 +162,7 @@
                 <SynchronousCommand wcm:action="add">
                     <Description>Enable WinRM</Description>
                     <Order>4</Order>
-                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\Enable-Winrm.ps1</CommandLine>
+		    <CommandLine>cmd.exe /c for %i in (D E F) do if exist %i:\Enable-Winrm.ps1 powershell.exe -ExecutionPolicy Bypass -File %i:\Enable-Winrm.ps1</CommandLine>
                 </SynchronousCommand> 
             </FirstLogonCommands>
 
