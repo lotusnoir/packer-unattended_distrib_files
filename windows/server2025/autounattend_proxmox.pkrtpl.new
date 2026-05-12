@@ -92,8 +92,8 @@
             </DiskConfiguration>
             <UserData>
                 <AcceptEula>true</AcceptEula>
-                <FullName>${winrm_username}</FullName>
-                <Organization>Administrators</Organization>
+                <FullName>Administrateur</FullName>
+                <Organization>Administrateurs</Organization>
                 <ProductKey>
                     <WillShowUI>Never</WillShowUI>
                 </ProductKey>
