@@ -92,6 +92,7 @@ powercfg /change hibernate-timeout-ac 0
 powercfg /change hibernate-timeout-dc 0
 
 # Disable password expiration for Administrator
+Set-LocalUser Administrator -PasswordNeverExpires $true
 Set-LocalUser Administrateur -PasswordNeverExpires $true
 
 # Set Temp Variable using PowerShell
