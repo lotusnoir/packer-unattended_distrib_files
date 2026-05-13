@@ -148,9 +148,9 @@
                 </Password>
             </AutoLogon>
             <FirstLogonCommands>
-                <!-- SET IP STATIC -->
+                <!-- SET GUEST AGENT -->
                 <SynchronousCommand wcm:action="add">
-                    <Description>Set ip static</Description>
+                    <Description>Set proxmox guest agent</Description>
                     <Order>1</Order>
 		    <!-- <CommandLine>${drive_letter}:\virtio-win-guest-tools.exe /install /passive /norestart</CommandLine> -->
                     <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "${drive_letter}:\guest-agent\qemu-ga-x86_64.msi /quiet"</CommandLine>
@@ -173,19 +173,12 @@
                     <Order>4</Order>
                     <CommandLine>netsh interface ipv4 add dnsserver name="Ethernet" address=${net_dns} index=2</CommandLine>
                 </SynchronousCommand>
-
-                <!-- ENABLE WINRM + OPEN PORT ON FIREWALL -->
                 <SynchronousCommand wcm:action="add">
-                    <Description>Enable WinRM</Description>
                     <Order>5</Order>
-                    <CommandLine>cmd.exe /c for %i in (D E F) do if exist %i:\Enable-Winrm.ps1 powershell.exe -ExecutionPolicy Bypass -File %i:\Enable-Winrm.ps1</CommandLine>
+                    <Description>Enable WinRM</Description>
+		    <CommandLine>cmd.exe /c (winrm quickconfig -quiet &gt; nul 2&gt;&amp;1) &amp; (winrm set winrm/config/service/auth @{Basic="true"} &gt; nul 2&gt;&amp;1) &amp; (winrm set winrm/config/service @{AllowUnencrypted="true"} &gt; nul 2&gt;&amp;1) &amp; (winrm set winrm/config/client @{TrustedHosts="*"} &gt; nul 2&gt;&amp;1) &amp; sc config WinRM start= auto &gt; nul &amp; sc start WinRM &gt; nul &amp; netsh advfirewall firewall add rule name="WinRM 5985" dir=in action=allow protocol=TCP localport=5985 &gt; nul</CommandLine>
                 </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <!-- Configure Remote execution for ansible -->
-                    <Order>6</Order>
-                    <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible-documentation/refs/heads/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))"</CommandLine>
-                </SynchronousCommand>
-            </FirstLogonCommands>
+	    </FirstLogonCommands>
             <OOBE>
                 <ProtectYourPC>3</ProtectYourPC>
                 <HideEULAPage>true</HideEULAPage>
